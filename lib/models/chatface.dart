@@ -45,7 +45,10 @@ Widget chat(String message, int data) {
             ? Container(
                 height: 60,
                 width: 60,
-                child: CircleAvatar(),
+                child: CircleAvatar(
+                  backgroundImage:
+                      NetworkImage('https://i.pravatar.cc/150?img=1'),
+                ),
               )
             : Container(),
       ],

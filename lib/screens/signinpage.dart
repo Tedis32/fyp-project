@@ -13,7 +13,7 @@ class SignInPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white12,
       appBar: AppBar(
-        title: Text("Sign-in", style: TextStyle(fontSize: 25)),
+        title: Text("Login", style: TextStyle(fontSize: 25)),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -25,7 +25,7 @@ class SignInPage extends StatelessWidget {
               children: [
                 Center(
                   child: Text(
-                    "Welcome to my application...",
+                    "Welcome!",
                     style: TextStyle(
                         color: Colors.blue[400],
                         fontWeight: FontWeight.bold,
@@ -33,7 +33,7 @@ class SignInPage extends StatelessWidget {
                   ),
                 ),
                 Divider(
-                  height: 30,
+                  height: 40,
                 ),
                 TextFormField(
                   controller: emailController,
@@ -94,7 +94,16 @@ class SignInPage extends StatelessWidget {
                         email: emailController.text.trim(),
                         password: passwordController.text.trim());
                   },
-                )
+                ),
+                Divider(
+                  height: 150,
+                ),
+                FlatButton(
+                  child: Text("Create account", style: TextStyle(color: Colors.white54, fontStyle: FontStyle.italic, fontSize: 20)),
+                  onPressed: (){
+                  Navigator.push(context,
+                  new MaterialPageRoute(builder: (context) => new SignUpPage()),);
+                },)
               ],
             ),
           ),
