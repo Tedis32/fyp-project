@@ -77,10 +77,8 @@ class _ChatState extends State<Chat> {
                     decoration: InputDecoration(
                       hintText: "Enter a Message...",
                       hintStyle: TextStyle(color: Colors.black45),
-                      border: InputBorder.none,
                       focusedBorder: InputBorder.none,
                       enabledBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
                       disabledBorder: InputBorder.none,
                     ),
                     style: TextStyle(fontSize: 16, color: Colors.black),
@@ -90,6 +88,7 @@ class _ChatState extends State<Chat> {
                 trailing: IconButton(
                     icon: Icon(
                       Icons.send,
+                      color: Colors.blue,
                       size: 30.0,
                     ),
                     onPressed: () {
