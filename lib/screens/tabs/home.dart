@@ -1,6 +1,8 @@
 import 'package:FYP_project/screens/tabs/chat.dart';
 import 'package:FYP_project/screens/tabs/conversations.dart';
+import 'package:FYP_project/services/authenticationservice.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -9,15 +11,21 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _currentIndex = 0;
-  final tabs = [
-    Chat(),
-    Conversations()
-  ];
+  AuthenticationService auth;
+  final tabs = [Chat(), Conversations()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Chatting time"),
+        actions: [
+          FlatButton(
+            onPressed: () {
+              context.read<AuthenticationService>().signOut();
+            },
+            child: Text("Sign out", style: TextStyle(color: Colors.white)),
+          )
+        ],
+        title: _currentIndex == 0 ? Text("Chat with Francine") : Text("Conversations"),
       ),
       body: tabs[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
