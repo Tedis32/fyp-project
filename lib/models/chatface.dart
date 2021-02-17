@@ -1,5 +1,6 @@
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 Widget chat(String message, int data) {
   return Container(
@@ -8,15 +9,16 @@ Widget chat(String message, int data) {
       mainAxisAlignment:
           data == 1 ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
+        // Using data = 0 or 1 to differentiate between 2 users
         data == 0
-            ? Container(
+            ? SizedBox(
                 height: 60,
                 width: 60,
                 child: CircleAvatar(
                   backgroundImage: AssetImage("assets/white-robot.jpg"),
                 ),
               )
-            : Container(),
+            : SizedBox(),
         Bubble(
             radius: Radius.circular(15.0),
             color: data == 0 ? Colors.black54 : Colors.blue,
@@ -42,15 +44,15 @@ Widget chat(String message, int data) {
               ),
             )),
         data == 1
-            ? Container(
+            ? SizedBox(
                 height: 60,
                 width: 60,
                 child: CircleAvatar(
                   backgroundImage:
-                      NetworkImage('https://i.pravatar.cc/150?img=1'),
+                      NetworkImage('https://i.pravatar.cc/150?'),
                 ),
               )
-            : Container(),
+            : SizedBox(),
       ],
     ),
   );

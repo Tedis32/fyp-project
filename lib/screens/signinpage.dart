@@ -1,9 +1,15 @@
-import 'package:FYP_project/screens/signuppage.dart';
 import 'package:FYP_project/services/authenticationservice.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SignInPage extends StatelessWidget {
+class SignInPage extends StatefulWidget {
+  @override
+  _SignInPageState createState() => _SignInPageState();
+  final Function toggleView;
+  SignInPage({this.toggleView});
+}
+
+class _SignInPageState extends State<SignInPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -99,11 +105,15 @@ class SignInPage extends StatelessWidget {
                   height: 150,
                 ),
                 FlatButton(
-                  child: Text("Create account", style: TextStyle(color: Colors.white54, fontStyle: FontStyle.italic, fontSize: 20)),
-                  onPressed: (){
-                  Navigator.push(context,
-                  new MaterialPageRoute(builder: (context) => new SignUpPage()),);
-                },)
+                  child: Text("Create account",
+                      style: TextStyle(
+                          color: Colors.white54,
+                          fontStyle: FontStyle.italic,
+                          fontSize: 20)),
+                  onPressed: () {
+                    widget.toggleView();
+                  },
+                )
               ],
             ),
           ),

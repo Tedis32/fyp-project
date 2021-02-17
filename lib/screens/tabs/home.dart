@@ -25,18 +25,31 @@ class _HomeState extends State<Home> {
             child: Text("Sign out", style: TextStyle(color: Colors.white)),
           )
         ],
-        title: _currentIndex == 0 ? Text("Chat with Francine") : Text("Conversations"),
+        title: _currentIndex == 0
+            ? Text("Chat with Francine")
+            : Text("Conversations"),
       ),
       body: tabs[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.black,
           currentIndex: _currentIndex,
           items: [
             BottomNavigationBarItem(
               label: "Chat",
-              icon: Icon(Icons.message),
+              activeIcon: Icon(Icons.message, color: Colors.blue),
+              icon: Icon(
+                Icons.message,
+                color: Colors.white60,
+              ),
             ),
             BottomNavigationBarItem(
-                label: "Conversations", icon: Icon(Icons.list)),
+              label: "Conversations",
+              activeIcon: Icon(Icons.message, color: Colors.blue),
+              icon: Icon(
+                Icons.message,
+                color: Colors.white60,
+              ),
+            ),
           ],
           onTap: (index) {
             setState(() {

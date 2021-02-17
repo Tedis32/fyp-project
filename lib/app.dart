@@ -1,4 +1,4 @@
-import 'package:FYP_project/screens/signinpage.dart';
+import 'package:FYP_project/screens/authenticator.dart';
 import 'package:FYP_project/screens/tabs/home.dart';
 import 'package:FYP_project/services/authenticationservice.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -48,7 +48,7 @@ class AuthenticationWrapper extends StatelessWidget {
     if (firebaseUser != null) {
       return Home();
     } else {
-      return SignInPage();
+      return Authenticator();
     }
   }
 }

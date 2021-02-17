@@ -45,7 +45,10 @@ class _ChatState extends State<Chat> {
               padding: EdgeInsets.only(top: 15, bottom: 10),
               child: Text(
                 "Today, ${DateFormat("Hm").format(DateTime.now())}",
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    fontStyle: FontStyle.italic),
               ),
             ),
             Flexible(
