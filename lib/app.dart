@@ -1,6 +1,6 @@
-import 'package:FYP_project/screens/authenticator.dart';
-import 'package:FYP_project/screens/tabs/home.dart';
-import 'package:FYP_project/services/authenticationservice.dart';
+import 'package:fyp_project/screens/authenticator.dart';
+import 'package:fyp_project/screens/tabs/home.dart';
+import 'package:fyp_project/services/authenticationservice.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

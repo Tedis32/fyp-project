@@ -1,6 +1,6 @@
-import 'package:FYP_project/screens/tabs/chat.dart';
-import 'package:FYP_project/screens/tabs/conversations.dart';
-import 'package:FYP_project/services/authenticationservice.dart';
+import 'package:fyp_project/screens/tabs/chat.dart';
+import 'package:fyp_project/screens/tabs/conversations.dart';
+import 'package:fyp_project/services/authenticationservice.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

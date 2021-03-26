@@ -1,4 +1,4 @@
-import 'package:FYP_project/models/action_button.dart';
+import 'package:fyp_project/models/action_button.dart';
 import 'package:flutter/material.dart';
 
 class FlatMessageInputBox extends StatelessWidget {

@@ -1,5 +1,5 @@
-import 'package:FYP_project/screens/signinpage.dart';
-import 'package:FYP_project/screens/signuppage.dart';
+import 'package:fyp_project/screens/signinpage.dart';
+import 'package:fyp_project/screens/signuppage.dart';
 import 'package:flutter/material.dart';
 
 class Authenticator extends StatefulWidget {
