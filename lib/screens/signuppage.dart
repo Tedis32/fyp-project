@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fyp_project/services/authenticationservice.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,7 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController userNameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -40,6 +42,32 @@ class _SignUpPageState extends State<SignUpPage> {
                 Divider(
                   height: 40,
                 ),
+                TextFormField(
+                  controller: userNameController,
+                  style: TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    hintText: "Enter your Username",
+                    hintStyle: TextStyle(color: Colors.white),
+                    errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red)),
+                    border: new OutlineInputBorder(
+                      borderSide: const BorderSide(style: BorderStyle.none),
+                      borderRadius: const BorderRadius.all(
+                        const Radius.circular(20.0),
+                      ),
+                    ),
+                    suffixIcon: Icon(
+                      Icons.email,
+                      color: Colors.blue,
+                    ),
+                    fillColor: Colors.black,
+                    filled: true,
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                
                 TextFormField(
                   controller: emailController,
                   style: TextStyle(color: Colors.white),
@@ -91,19 +119,23 @@ class _SignUpPageState extends State<SignUpPage> {
                 SizedBox(
                   height: 20,
                 ),
-                FlatButton(
+                TextButton(
                   child: Text("Register",
                       style: TextStyle(fontSize: 25, color: Colors.white)),
-                  onPressed: () {
-                    context.read<AuthenticationService>().signUp(
+                  onPressed: () async {
+                   await context.read<AuthenticationService>().signUp(
                         email: emailController.text.trim(),
                         password: passwordController.text.trim());
+                    context
+                        .read<AuthenticationService>()
+                        .addUser(userNameController.text);
+                    
                   },
                 ),
                 Divider(
                   height: 150,
                 ),
-                FlatButton(
+                TextButton(
                   child: Text(
                     "Already have an account? Login",
                     style: TextStyle(

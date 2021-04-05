@@ -18,7 +18,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          FlatButton(
+          TextButton(
             onPressed: () {
               context.read<AuthenticationService>().signOut();
             },

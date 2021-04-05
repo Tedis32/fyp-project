@@ -1,9 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fyp_project/models/chatface.dart';
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dialogflow/dialogflow_v2.dart';
 import 'package:flutter_dialogflow/v2/auth_google.dart';
+import 'package:fyp_project/services/authenticationservice.dart';
+import 'package:fyp_project/services/firebaseservice.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class Chat extends StatefulWidget {
   @override
@@ -15,7 +19,8 @@ class _ChatState extends State<Chat> {
   void response(query) async {
     //Asynchronously instantiating AuthGoogle, this is for Google Cloud services.
     AuthGoogle authGoogle =
-        await AuthGoogle(fileJson: "assets/new-dialogflow.json").build();
+        await AuthGoogle(fileJson: "assets/fyp-project-a8913-44600a68789d.json")
+            .build();
     //Instantiate DialogFlow V2 refer to pubspec.yaml
     Dialogflow dialogflow =
         Dialogflow(authGoogle: authGoogle, language: Language.english);
@@ -32,7 +37,7 @@ class _ChatState extends State<Chat> {
   }
 
   //final messageInsert = new TextEditingController();
-  List<Map> messsages = List();
+  List<Map> messsages = [];
   @override
   Widget build(BuildContext context) {
     TextEditingController messageInsert = new TextEditingController();
@@ -91,13 +96,17 @@ class _ChatState extends State<Chat> {
                       color: Colors.blue,
                       size: 30.0,
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       if (messageInsert.text.isEmpty) {
                         print("empty message");
                       } else {
-                        setState(() {
+                        setState(()  {
                           messsages.insert(
                               0, {"data": 1, "message": messageInsert.text});
+
+                           context.read<FirebaseService>().addMessage(
+                              FirebaseAuth.instance.currentUser.uid,
+                              messageInsert.text);
                         });
                         response(messageInsert.text);
                         messageInsert.clear();
