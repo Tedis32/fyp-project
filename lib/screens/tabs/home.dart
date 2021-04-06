@@ -1,5 +1,6 @@
 import 'package:fyp_project/screens/tabs/chat.dart';
 import 'package:fyp_project/screens/tabs/conversations.dart';
+import 'package:fyp_project/screens/tabs/speechsreen.dart';
 import 'package:fyp_project/services/authenticationservice.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +13,11 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _currentIndex = 0;
   AuthenticationService auth;
-  final tabs = [Chat(), Conversations()];
+  final tabs = [
+    Chat(),
+    SpeechScreen(),
+    Conversations(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,6 +44,14 @@ class _HomeState extends State<Home> {
               activeIcon: Icon(Icons.message, color: Colors.blue),
               icon: Icon(
                 Icons.message,
+                color: Colors.white60,
+              ),
+            ),
+            BottomNavigationBarItem(
+              label: "Speak",
+              activeIcon: Icon(Icons.mic, color: Colors.blue),
+              icon: Icon(
+                Icons.mic,
                 color: Colors.white60,
               ),
             ),

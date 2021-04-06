@@ -34,11 +34,17 @@ dependencies:
   bubble: ^1.1.9+1
   #for dates 
   intl: ^0.16.1
+  # Speech to text
+  speech_to_text: ^3.2.0
 
   # Styling the app
   google_fonts: ^1.1.2
+  
+  # Text to speech
+  flutter_tts: ^3.0.0
 
-
+  #Image/avatar glow
+  avatar_glow: ^2.0.1
 
 
 
