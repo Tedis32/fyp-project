@@ -38,7 +38,7 @@ class _ChatState extends State<Chat> {
     setState(() {
       context.read<FirebaseService>().addMessage(
           FirebaseAuth.instance.currentUser.uid,
-          aiResponse.getListMessage()[0]["text"]["text"][0].toString());
+          aiResponse.getListMessage()[0]["text"]["text"][0].toString(), 0);
       messsages.insert(0, {
         "data": 0,
         "message": aiResponse.getListMessage()[0]["text"]["text"][0].toString()
@@ -118,7 +118,7 @@ class _ChatState extends State<Chat> {
 
                           context.read<FirebaseService>().addMessage(
                               FirebaseAuth.instance.currentUser.uid,
-                              messageInsert.text);
+                              messageInsert.text, 1);
                         });
                         response(messageInsert.text);
                         messageInsert.clear();

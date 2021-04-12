@@ -63,7 +63,7 @@ class _SpeechScreen extends State<SpeechScreen> {
 
           context
               .read<FirebaseService>()
-              .addMessage(FirebaseAuth.instance.currentUser.uid, _textSpeech);
+              .addMessage(FirebaseAuth.instance.currentUser.uid, _textSpeech, 1);
         },
       );
       response(_textSpeech);
@@ -95,7 +95,7 @@ class _SpeechScreen extends State<SpeechScreen> {
     setState(() {
       context.read<FirebaseService>().addMessage(
           FirebaseAuth.instance.currentUser.uid,
-          aiResponse.getListMessage()[0]["text"]["text"][0].toString());
+          aiResponse.getListMessage()[0]["text"]["text"][0].toString(), 0 );
       messsages.insert(0, {
         "data": 0,
         "message": aiResponse.getListMessage()[0]["text"]["text"][0].toString()

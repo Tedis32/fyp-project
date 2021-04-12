@@ -1,5 +1,6 @@
 import 'package:fyp_project/screens/tabs/chat.dart';
 import 'package:fyp_project/screens/tabs/conversations.dart';
+import 'package:fyp_project/screens/tabs/shop.dart';
 import 'package:fyp_project/screens/tabs/speechsreen.dart';
 import 'package:fyp_project/services/authenticationservice.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class _HomeState extends State<Home> {
     Chat(),
     SpeechScreen(),
     Conversations(),
+    Shop(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -34,8 +36,12 @@ class _HomeState extends State<Home> {
             ? Text("Chat with Francine")
             : Text("Conversations"),
       ),
-      body: tabs[_currentIndex],
+      body: IndexedStack(
+        children: tabs,
+        index: _currentIndex,
+      ),
       bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.black,
           currentIndex: _currentIndex,
           items: [
@@ -57,9 +63,17 @@ class _HomeState extends State<Home> {
             ),
             BottomNavigationBarItem(
               label: "Conversations",
-              activeIcon: Icon(Icons.message, color: Colors.blue),
+              activeIcon: Icon(Icons.list, color: Colors.blue),
               icon: Icon(
-                Icons.message,
+                Icons.list,
+                color: Colors.white60,
+              ),
+            ),
+            BottomNavigationBarItem(
+              label: "Shop",
+              activeIcon: Icon(Icons.shop, color: Colors.blue),
+              icon: Icon(
+                Icons.shop,
                 color: Colors.white60,
               ),
             ),
