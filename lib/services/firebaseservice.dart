@@ -1,34 +1,49 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fyp_project/models/message.dart';
 
 class FirebaseService {
   // ignore: unused_field
   FirebaseService _firebaseService;
 
-  Future<void> addMessage(String userID, String message, int index) async {
-    try {
-      CollectionReference chats =
-          FirebaseFirestore.instance.collection('chats');
-      return chats.doc(userID).set({
-         'Messages': message,
-      });
-    } catch (e) {
-      return e.message;
-    }
+  static Future<void> uploadMessage(
+      String userID, String message, int index) async {
+    final messagesRef =
+        FirebaseFirestore.instance.collection('chats/$userID/messages');
+    DocumentReference docRef =
+        FirebaseFirestore.instance.collection('users').doc(userID);
+    int chat;
+    await docRef.get().then(
+      (snapshot) {
+        chat = snapshot.data()['chatCount'];
+      },
+    );
+
+    final newMessage = Message(
+      userID: userID,
+      message: message,
+      timeStamp: DateTime.now(),
+      chatnumber: chat,
+      index: index,
+    );
+    await messagesRef.add(newMessage.toJson());
   }
 
-  Future<void> createNewChat(userID) {
-    CollectionReference chats = FirebaseFirestore.instance.collection('chats');
-    return chats.doc().set({
-      'Messages': [],
+  Future<void> incrementchatcount(userID) async {
+    DocumentReference docRef =
+        FirebaseFirestore.instance.collection('users').doc(userID);
+    docRef.update({
+      'chatCount': FieldValue.increment(1),
     });
   }
 
-  Future<void> getMessages(userID, chatID) async {
-
-    DocumentReference doc = FirebaseFirestore.instance.collection('chats').doc(chatID).
-
-
+  Future<double> getBalance() async {
+    DocumentReference docRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser.uid);
+    docRef.get().then((DocumentSnapshot snapshot) {
+      return snapshot['balance'];
+    });
   }
-
 }

@@ -133,7 +133,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   },
                 ),
                 Divider(
-                  height: 150,
+                  height: 50,
                 ),
                 TextButton(
                   child: Text(

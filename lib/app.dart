@@ -3,6 +3,7 @@ import 'package:fyp_project/screens/tabs/home.dart';
 import 'package:fyp_project/services/authenticationservice.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fyp_project/services/bottomappbarprovider.dart';
 import 'package:fyp_project/services/firebaseservice.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,6 +13,9 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        Provider<BottomNavigationBarProvider>(
+          create: (_) => BottomNavigationBarProvider(),
+        ),
         Provider<FirebaseService>(
           create: (_) => FirebaseService(),
         ),

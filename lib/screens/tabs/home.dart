@@ -1,10 +1,14 @@
+import 'package:fyp_project/models/newmessage.dart';
+import 'package:fyp_project/screens/emailscreen.dart';
 import 'package:fyp_project/screens/tabs/chat.dart';
 import 'package:fyp_project/screens/tabs/conversations.dart';
+import 'package:fyp_project/screens/tabs/dualbots.dart';
 import 'package:fyp_project/screens/tabs/shop.dart';
 import 'package:fyp_project/screens/tabs/speechsreen.dart';
 import 'package:fyp_project/services/authenticationservice.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -15,31 +19,56 @@ class _HomeState extends State<Home> {
   int _currentIndex = 0;
   AuthenticationService auth;
   final tabs = [
-    Chat(),
+    NewMessage(),
     SpeechScreen(),
-    Conversations(),
+    DualBots(),
     Shop(),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: Padding(
+          padding: EdgeInsets.only(top: 40, bottom: 60),
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              ListView(
+                children: [
+                  ListTile(
+                    title: Text("Send us an email!"),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EmailSender(),
+                        ),
+                      );
+                    },
+                    trailing: Icon(Icons.email),
+                  ),
+                ],
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  context.read<AuthenticationService>().signOut();
+                },
+                child: Text("Sign out", style: TextStyle(color: Colors.black)),
+              ),
+            ],
+          ),
+        ),
+      ),
       appBar: AppBar(
-        actions: [
-          TextButton(
-            onPressed: () {
-              context.read<AuthenticationService>().signOut();
-            },
-            child: Text("Sign out", style: TextStyle(color: Colors.white)),
-          )
-        ],
-        title: _currentIndex == 0
-            ? Text("Chat with Francine")
-            : Text("Conversations"),
-      ),
-      body: IndexedStack(
-        children: tabs,
-        index: _currentIndex,
-      ),
+          title: _currentIndex == 0
+              ? Text("Chat with Francine")
+              : _currentIndex == 1
+                  ? Text("Speak to Francine")
+                  : _currentIndex == 2
+                      ? Text('Bot battle!')
+                      : Text('Shop around!')),
+      body: tabs[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.black,
@@ -62,10 +91,10 @@ class _HomeState extends State<Home> {
               ),
             ),
             BottomNavigationBarItem(
-              label: "Conversations",
-              activeIcon: Icon(Icons.list, color: Colors.blue),
+              label: "Dual-bots",
+              activeIcon: Icon(Icons.emoji_people_sharp, color: Colors.blue),
               icon: Icon(
-                Icons.list,
+                Icons.emoji_people_sharp,
                 color: Colors.white60,
               ),
             ),
@@ -84,5 +113,9 @@ class _HomeState extends State<Home> {
             });
           }),
     );
+  }
+
+  int getCurrentIndex(int index) {
+    return index;
   }
 }

@@ -61,9 +61,9 @@ class _SpeechScreen extends State<SpeechScreen> {
         () {
           messsages.insert(0, {"data": 1, "message": _textSpeech});
 
-          context
+         /*  context
               .read<FirebaseService>()
-              .addMessage(FirebaseAuth.instance.currentUser.uid, _textSpeech, 1);
+              .addMessage(FirebaseAuth.instance.currentUser.uid, _textSpeech, 1); */
         },
       );
       response(_textSpeech);
@@ -93,9 +93,9 @@ class _SpeechScreen extends State<SpeechScreen> {
     AIResponse aiResponse;
     aiResponse = await dialogflowspeech.detectIntent(query);
     setState(() {
-      context.read<FirebaseService>().addMessage(
+      /* context.read<FirebaseService>().addMessage(
           FirebaseAuth.instance.currentUser.uid,
-          aiResponse.getListMessage()[0]["text"]["text"][0].toString(), 0 );
+          aiResponse.getListMessage()[0]["text"]["text"][0].toString(), 0 ); */
       messsages.insert(0, {
         "data": 0,
         "message": aiResponse.getListMessage()[0]["text"]["text"][0].toString()

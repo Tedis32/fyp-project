@@ -43,18 +43,21 @@ class AuthenticationService {
       if (userID != null) {
         return users.doc(userID).set({
           'username': userName,
+          'chatCount': 0,
+          'balance': 1000000,
         });
       }
     } catch (e) {
       return e.message;
     }
   }
+
   //Useful getter
   Future<String> getUID() async {
-    try{
+    try {
       String userid = _firebaseAuth.currentUser.uid;
       return userid;
-    } catch(e) {
+    } catch (e) {
       return e.message;
     }
   }
