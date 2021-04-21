@@ -53,7 +53,6 @@ class _ChatState extends State<Chat> with AutomaticKeepAliveClientMixin {
                   ElevatedButton(
                     onPressed: () async {
                       this.closed = true;
-
                       setState(() {});
                     },
                     child: Text('Close Conversation'),
@@ -118,8 +117,7 @@ class _ChatState extends State<Chat> with AutomaticKeepAliveClientMixin {
                                 index = 1;
                                 sendMessage(messageInsert.text);
                               });
-
-                              response(messageInsert.text);
+                              response(messageInsert.text.replaceAll("'", ""));
                               messageInsert.clear();
                             }
                             FocusScopeNode currentFocus =
@@ -173,7 +171,6 @@ class _ChatState extends State<Chat> with AutomaticKeepAliveClientMixin {
     if (widget.enabledTTS == true) {
       speak(aiResponse.getListMessage()[0]["text"]["text"][0].toString());
     }
-
     print(aiResponse.getListMessage()[0]["text"]["text"][0].toString());
   }
 

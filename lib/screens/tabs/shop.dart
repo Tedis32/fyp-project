@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:fyp_project/models/shop_item.dart';
 import 'package:fyp_project/screens/tabs/chat.dart';
 
+import 'checkout.dart';
+
 class Shop extends StatefulWidget {
   @override
   _ShopState createState() => _ShopState();
@@ -66,30 +68,24 @@ class Shop extends StatefulWidget {
       description: "This is an epic car",
     ),
   ];
-  final bool noError;
-  Shop({this.noError});
+  bool checkout;
+  final Function toggleView;
+  Shop({this.checkout, this.toggleView});
 }
 
 class _ShopState extends State<Shop> {
   String uid = FirebaseAuth.instance.currentUser.uid;
+  List basket = [];
 
   @override
   Widget build(BuildContext context) {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
-    bool _noError = widget.noError;
-    return _noError == false
-        ? Chat()
+    return widget.checkout == true
+        ? Checkout()
         : Scaffold(
             body: SingleChildScrollView(
               child: Column(
                 children: [
-                  RefreshIndicator(
-                    // ignore: missing_return
-                    onRefresh: () {
-                      _refreshing();
-                    },
-                    child: Text(''),
-                  ),
                   Padding(padding: EdgeInsets.only(top: 10)),
                   Container(
                     padding: EdgeInsets.only(left: 5),
@@ -112,22 +108,23 @@ class _ShopState extends State<Shop> {
                       ),
                     ),
                   ),
-                  Container(
-                    height: 20,
-                  ),
+                  Container(),
                   ListView(
                     shrinkWrap: true,
                     physics: BouncingScrollPhysics(),
                     padding: const EdgeInsets.all(10),
                     children: widget.shopItems,
                   ),
+                  ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          widget.toggleView();
+                        });
+                      },
+                      child: Text("Checkout"))
                 ],
               ),
             ),
           );
-  }
-
-  Future<Null> _refreshing() async {
-    print('refreshing stocks...');
   }
 }

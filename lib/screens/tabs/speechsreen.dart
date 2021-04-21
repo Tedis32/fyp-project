@@ -21,6 +21,8 @@ class _SpeechScreen extends State<SpeechScreen> {
   stt.SpeechToText _speech;
   String _textSpeech;
   bool _isListening = false;
+  double _confidence = 1.0;
+
   @override
   void initState() {
     super.initState();
@@ -28,49 +30,30 @@ class _SpeechScreen extends State<SpeechScreen> {
   }
 
 // This function is necessary for the bot to hear a human speak and regulate the speech into the widget tree
-  void onListen() async {
+  void _listen() async {
     if (!_isListening) {
       bool available = await _speech.initialize(
         onStatus: (val) => print('onStatus: $val'),
         onError: (val) => print('onError: $val'),
       );
       if (available) {
-        setState(() {
-          _isListening = true;
-        });
+        setState(() => _isListening = true);
         _speech.listen(
-          onResult: (val) => setState(
-            () {
-              _textSpeech = val.recognizedWords;
-            },
-          ),
-        );
-      } else {
-        setState(
-          () {
-            _isListening = false;
-            _speech.stop();
-          },
+          onResult: (val) => setState(() {
+            _textSpeech = val.recognizedWords;
+            if (val.hasConfidenceRating && val.confidence > 0) {
+              _confidence = val.confidence;
+            }
+            setState(() {
+              messsages.insert(0, {"data": 1, "message": _textSpeech});
+              response(_textSpeech);
+            });
+          }),
         );
       }
-    }
-    if (_textSpeech == null) {
-      print("empty message");
     } else {
-      setState(
-        () {
-          messsages.insert(0, {"data": 1, "message": _textSpeech});
-
-         /*  context
-              .read<FirebaseService>()
-              .addMessage(FirebaseAuth.instance.currentUser.uid, _textSpeech, 1); */
-        },
-      );
-      response(_textSpeech);
-    }
-    FocusScopeNode currentFocus = FocusScope.of(context);
-    if (!currentFocus.hasPrimaryFocus) {
-      currentFocus.unfocus();
+      setState(() => _isListening = false);
+      _speech.stop();
     }
   }
 
@@ -139,9 +122,9 @@ class _SpeechScreen extends State<SpeechScreen> {
             Container(
               child: ListTile(
                 title: Container(
-                  height: 30,
+                  height: 50,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    borderRadius: BorderRadius.all(Radius.circular(60)),
                   ),
                   padding: EdgeInsets.only(left: 15),
                   child: AvatarGlow(
@@ -150,11 +133,16 @@ class _SpeechScreen extends State<SpeechScreen> {
                     endRadius: 80,
                     duration: Duration(milliseconds: 2000),
                     repeat: true,
-                    child: FloatingActionButton(
-                      child: Icon(
-                        _isListening ? Icons.mic : Icons.mic_none,
+                    child: SizedBox(
+                      height: 200,
+                      width: 200,
+                      child: FloatingActionButton(
+                        onPressed: _listen,
+                        child: Icon(
+                          _isListening ? Icons.mic : Icons.mic_none,
+                          size: 30,
+                        ),
                       ),
-                      onPressed: () => onListen(),
                     ),
                   ),
                 ),

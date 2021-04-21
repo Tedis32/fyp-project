@@ -4,6 +4,7 @@ import 'package:fyp_project/screens/tabs/chat.dart';
 import 'package:fyp_project/screens/tabs/conversations.dart';
 import 'package:fyp_project/screens/tabs/dualbots.dart';
 import 'package:fyp_project/screens/tabs/shop.dart';
+import 'package:fyp_project/screens/tabs/shopregulator.dart';
 import 'package:fyp_project/screens/tabs/speechsreen.dart';
 import 'package:fyp_project/services/authenticationservice.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class _HomeState extends State<Home> {
     NewMessage(),
     SpeechScreen(),
     DualBots(),
-    Shop(),
+    ShopRegulator(),
   ];
 
   @override
