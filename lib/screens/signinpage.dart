@@ -1,3 +1,4 @@
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fyp_project/services/authenticationservice.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -92,19 +93,30 @@ class _SignInPageState extends State<SignInPage> {
                 SizedBox(
                   height: 20,
                 ),
-                FlatButton(
-                  child: Text("Login",
-                      style: TextStyle(fontSize: 25, color: Colors.white)),
-                  onPressed: () {
-                    context.read<AuthenticationService>().signIn(
-                        email: emailController.text.trim(),
-                        password: passwordController.text.trim());
-                  },
-                ),
+                TextButton(
+                    child: Text("Login",
+                        style: TextStyle(fontSize: 25, color: Colors.white)),
+                    onPressed: () async {
+                      if (emailController.text.isNotEmpty &&
+                          emailController.text.contains('@') &&
+                          passwordController.text.isNotEmpty &&
+                          passwordController.text.length >= 6) {
+                        await context.read<AuthenticationService>().signIn(
+                            email: emailController.text.trim(),
+                            password: passwordController.text.trim());
+                      } else {
+                        return Fluttertoast.showToast(
+                          msg:
+                              "Passwords must be longer than 6 and emails must be valid with @ symbol followed by . and a domain",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                        );
+                      }
+                    }),
                 Divider(
                   height: 150,
                 ),
-                FlatButton(
+                TextButton(
                   child: Text("Create account",
                       style: TextStyle(
                           color: Colors.white54,
@@ -113,7 +125,7 @@ class _SignInPageState extends State<SignInPage> {
                   onPressed: () {
                     widget.toggleView();
                   },
-                )
+                ),
               ],
             ),
           ),

@@ -46,4 +46,13 @@ class FirebaseService {
       return snapshot['balance'];
     });
   }
+
+  Future<int> getBasket() async {
+    DocumentReference docRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser.uid);
+    docRef.get().then((DocumentSnapshot snapshot) {
+      return snapshot['basket'];
+    });
+  }
 }

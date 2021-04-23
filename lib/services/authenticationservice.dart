@@ -40,12 +40,17 @@ class AuthenticationService {
       String userID = _firebaseAuth.currentUser.uid;
       CollectionReference users =
           FirebaseFirestore.instance.collection('users');
-          double balance = 1000000;
+      CollectionReference shop = FirebaseFirestore.instance
+          .collection('users')
+          .doc('user_shop')
+          .collection('shop');
+      double balance = 1000000;
       if (userID != null) {
         return users.doc(userID).set({
           'username': userName,
           'chatCount': 0,
           'balance': balance,
+          'basket': 0,
         });
       }
     } catch (e) {

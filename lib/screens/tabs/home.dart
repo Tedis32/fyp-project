@@ -1,11 +1,11 @@
 import 'package:fyp_project/models/newmessage.dart';
 import 'package:fyp_project/screens/emailscreen.dart';
+import 'package:fyp_project/screens/faq.dart';
 import 'package:fyp_project/screens/tabs/chat.dart';
 import 'package:fyp_project/screens/tabs/conversations.dart';
 import 'package:fyp_project/screens/tabs/dualbots.dart';
 import 'package:fyp_project/screens/tabs/shop.dart';
 import 'package:fyp_project/screens/tabs/shopregulator.dart';
-import 'package:fyp_project/screens/tabs/speechsreen.dart';
 import 'package:fyp_project/services/authenticationservice.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,8 +21,6 @@ class _HomeState extends State<Home> {
   AuthenticationService auth;
   final tabs = [
     NewMessage(),
-    SpeechScreen(),
-    DualBots(),
     ShopRegulator(),
   ];
 
@@ -38,7 +36,7 @@ class _HomeState extends State<Home> {
               ListView(
                 children: [
                   ListTile(
-                    title: Text("Send us an email!"),
+                    title: Text("Send a support email!"),
                     onTap: () {
                       Navigator.push(
                         context,
@@ -48,6 +46,18 @@ class _HomeState extends State<Home> {
                       );
                     },
                     trailing: Icon(Icons.email),
+                  ),
+                  ListTile(
+                    title: Text("How to use the app?"),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FAQ(),
+                        ),
+                      );
+                    },
+                    trailing: Icon(Icons.info),
                   ),
                 ],
               ),
@@ -64,14 +74,9 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
           title: _currentIndex == 0
               ? Text("Chat with Francine")
-              : _currentIndex == 1
-                  ? Text("Speak to Francine")
-                  : _currentIndex == 2
-                      ? Text('Bot battle!')
-                      : Text('Shop around!')),
-      body: tabs[_currentIndex],
+              : Text("Speak to Francine")),
+      body: IndexedStack(children: tabs, index: _currentIndex),
       bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.black,
           currentIndex: _currentIndex,
           items: [
@@ -80,22 +85,6 @@ class _HomeState extends State<Home> {
               activeIcon: Icon(Icons.message, color: Colors.blue),
               icon: Icon(
                 Icons.message,
-                color: Colors.white60,
-              ),
-            ),
-            BottomNavigationBarItem(
-              label: "Speak",
-              activeIcon: Icon(Icons.mic, color: Colors.blue),
-              icon: Icon(
-                Icons.mic,
-                color: Colors.white60,
-              ),
-            ),
-            BottomNavigationBarItem(
-              label: "Dual-bots",
-              activeIcon: Icon(Icons.emoji_people_sharp, color: Colors.blue),
-              icon: Icon(
-                Icons.emoji_people_sharp,
                 color: Colors.white60,
               ),
             ),

@@ -20,7 +20,8 @@ class _ShopItemScreenState extends State<ShopItemScreen> {
     double price = widget.shopItem.price;
     String name = widget.shopItem.name;
     String uid = FirebaseAuth.instance.currentUser.uid;
-    double _balance = 0;
+    int _basket = 0;
+
     return Scaffold(
       body: Container(
         child: Column(
@@ -68,31 +69,13 @@ class _ShopItemScreenState extends State<ShopItemScreen> {
               alignment: Alignment.center,
               child: ElevatedButton(
                   onPressed: () async {
-                    DocumentReference docRef =
-                        FirebaseFirestore.instance.collection('users').doc(uid);
-                    await docRef.get().then(
-                      (DocumentSnapshot snapshot) {
-                        _balance = snapshot['balance'];
-                      },
+                    Navigator.pop(
+                      context,
                     );
-                    if (_balance >= price) {
-                      docRef.update(
-                        {
-                          'balance': FieldValue.increment(-price),
-                        },
-                      );
-                      Navigator.pop(context);
-                      setState(() {});
-                    } else {
-                      print('error');
-                      Fluttertoast.showToast(
-                        msg: "Error, not enough money",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.CENTER,
-                      );
-                    }
+                    setState(() {});
                   },
-                  child: Text('Purchase $name')),
+                  
+                  child: Text('Back to shop!')),
             ),
           ],
         ),

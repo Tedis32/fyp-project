@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fyp_project/services/authenticationservice.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -67,7 +68,6 @@ class _SignUpPageState extends State<SignUpPage> {
                 SizedBox(
                   height: 20,
                 ),
-                
                 TextFormField(
                   controller: emailController,
                   style: TextStyle(color: Colors.white),
@@ -120,16 +120,30 @@ class _SignUpPageState extends State<SignUpPage> {
                   height: 20,
                 ),
                 TextButton(
-                  child: Text("Register",
-                      style: TextStyle(fontSize: 25, color: Colors.white)),
+                  child: Text(
+                    "Register",
+                    style: TextStyle(fontSize: 25, color: Colors.white),
+                  ),
                   onPressed: () async {
-                   await context.read<AuthenticationService>().signUp(
-                        email: emailController.text.trim(),
-                        password: passwordController.text.trim());
-                    context
-                        .read<AuthenticationService>()
-                        .addUser(userNameController.text);
-                    
+                    if (emailController.text.isNotEmpty &&
+                        emailController.text.contains('@') &&
+                        passwordController.text.isNotEmpty &&
+                        passwordController.text.length >= 6 &&
+                        userNameController.text.isNotEmpty) {
+                      await context.read<AuthenticationService>().signUp(
+                          email: emailController.text.trim(),
+                          password: passwordController.text.trim());
+                      context
+                          .read<AuthenticationService>()
+                          .addUser(userNameController.text);
+                    } else {
+                      return Fluttertoast.showToast(
+                        msg:
+                            "Passwords must be longer than 6 and emails must be valid with @ symbol followed by . and a domain, no fields can be left empty",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                      );
+                    }
                   },
                 ),
                 Divider(

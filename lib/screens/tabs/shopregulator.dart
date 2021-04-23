@@ -9,21 +9,21 @@ class ShopRegulator extends StatefulWidget {
 }
 
 class _ShopRegulatorState extends State<ShopRegulator> {
-  bool showCheckout = true;
+  bool showCheckout = false;
   void toggleView() {
     setState(() => showCheckout = !showCheckout);
   }
 
   @override
   Widget build(BuildContext context) {
-    if (showCheckout) {
+     if (showCheckout) {
       return Checkout(
         toggleView: toggleView, 
       );
-    } else {
+    } else { 
       return Shop(
         toggleView: toggleView, 
       );
     }
-  }
+   } 
 }

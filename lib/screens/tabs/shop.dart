@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fyp_project/models/shop_item.dart';
 import 'package:fyp_project/screens/tabs/chat.dart';
 
+import '../../main.dart';
 import 'checkout.dart';
 
 class Shop extends StatefulWidget {
@@ -68,63 +69,76 @@ class Shop extends StatefulWidget {
       description: "This is an epic car",
     ),
   ];
-  bool checkout;
+  final List<ShopItem> basket;
   final Function toggleView;
-  Shop({this.checkout, this.toggleView});
+  Shop({this.toggleView, this.basket});
 }
+
+List<ShopItem> basket;
 
 class _ShopState extends State<Shop> {
   String uid = FirebaseAuth.instance.currentUser.uid;
-  List basket = [];
 
   @override
   Widget build(BuildContext context) {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
-    return widget.checkout == true
-        ? Checkout()
-        : Scaffold(
-            body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(padding: EdgeInsets.only(top: 10)),
-                  Container(
-                    padding: EdgeInsets.only(left: 5),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: FutureBuilder<DocumentSnapshot>(
-                        future: users.doc(uid).get(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<DocumentSnapshot> snapshot) {
-                          if (snapshot.hasError) {
-                            return Text("Something went wrong");
-                          }
-                          if (snapshot.connectionState ==
-                              ConnectionState.done) {
-                            Map<String, dynamic> data = snapshot.data.data();
-                            return Text("Balance: € ${data['balance']}");
-                          }
-                          return Text("loading");
-                        },
-                      ),
-                    ),
-                  ),
-                  Container(),
-                  ListView(
-                    shrinkWrap: true,
-                    physics: BouncingScrollPhysics(),
-                    padding: const EdgeInsets.all(10),
-                    children: widget.shopItems,
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          widget.toggleView();
-                        });
-                      },
-                      child: Text("Checkout"))
-                ],
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(padding: EdgeInsets.only(top: 10)),
+            Container(
+              padding: EdgeInsets.only(left: 5),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: FutureBuilder<DocumentSnapshot>(
+                  future: users.doc(uid).get(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<DocumentSnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      return Text("Something went wrong");
+                    }
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      Map<String, dynamic> data = snapshot.data.data();
+                      return Text("Balance: € ${data['balance']}");
+                    }
+                    return Text("loading");
+                  },
+                ),
               ),
             ),
-          );
+            Align(
+              alignment: Alignment.center,
+              child: Icon(Icons.shopping_cart),
+            ),
+            Text('${itemsNotifier.length}'),
+            Container(),
+            ListView(
+              shrinkWrap: true,
+              physics: BouncingScrollPhysics(),
+              padding: const EdgeInsets.all(10),
+              children: widget.shopItems,
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    widget.toggleView();
+                  });
+                },
+                child: Text("Checkout"))
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> addItemToBasket() async {
+    for (var item in widget.shopItems) {
+      if (item.basket == true) {
+        basket.add(item);
+      } else {
+        print('error');
+      }
+    }
   }
 }
